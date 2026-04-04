@@ -16,6 +16,26 @@ const experiments = [
     title: 'Reflow',
     description: '드래그로 텍스트 박스 너비를 조절하면 즉시 재배치된다. DOM reflow 없이 60fps로 동작하는 pretext의 핵심.',
   },
+  {
+    slug: 'vortex',
+    title: 'Vortex',
+    description: '커서 근처 글자들이 블랙홀처럼 궤도를 돌며 색상이 바뀐다. 접선 힘 + 구심력으로 나선형 궤도를 생성.',
+  },
+  {
+    slug: 'ripple',
+    title: 'Ripple',
+    description: '클릭하면 파문이 텍스트를 가로질러 퍼져나간다. 파문 링과의 거리로 힘을 계산하고 스프링으로 복원.',
+  },
+  {
+    slug: 'glitch',
+    title: 'Glitch',
+    description: '주기적으로 크로마틱 어버레이션 글리치가 발생한다. lighter 합성 모드로 레드/시안 채널을 분리.',
+  },
+  {
+    slug: 'flow',
+    title: 'Flow',
+    description: '드래그 가능한 블록 주변으로 텍스트가 실시간 리플로우된다. layoutNextLine()으로 줄마다 다른 너비를 적용.',
+  },
 ]
 
 export default function PretextPage() {

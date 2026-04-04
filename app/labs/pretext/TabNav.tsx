@@ -8,6 +8,10 @@ const tabs = [
   { href: '/labs/pretext/wave', label: 'Wave' },
   { href: '/labs/pretext/scatter', label: 'Scatter' },
   { href: '/labs/pretext/reflow', label: 'Reflow' },
+  { href: '/labs/pretext/vortex', label: 'Vortex' },
+  { href: '/labs/pretext/ripple', label: 'Ripple' },
+  { href: '/labs/pretext/glitch', label: 'Glitch' },
+  { href: '/labs/pretext/flow', label: 'Flow' },
 ]
 
 export default function TabNav() {
