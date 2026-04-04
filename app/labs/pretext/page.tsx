@@ -36,6 +36,11 @@ const experiments = [
     title: 'Flow',
     description: '드래그 가능한 블록 주변으로 텍스트가 실시간 리플로우된다. layoutNextLine()으로 줄마다 다른 너비를 적용.',
   },
+  {
+    slug: 'crater',
+    title: 'Crater',
+    description: '클릭하면 구슬이 박히며 충격파로 주변 글자를 날린다. 구슬은 영구 장애물로 남아 크레이터 형태를 유지한다.',
+  },
 ]
 
 export default function PretextPage() {
