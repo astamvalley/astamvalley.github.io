@@ -12,8 +12,11 @@ const labs: { name: string; description: string; href?: string; wip?: boolean }[
 ]
 
 const games: { name: string; description: string; href?: string; wip?: boolean }[] = [
-  // 게임 추가 예시:
-  // { name: 'game-name', description: '...' },
+  {
+    name: 'suika',
+    description: '수박게임 모티브. 같은 크기끼리 충돌하면 합쳐져 더 큰 원이 된다. Matter.js 물리 엔진 기반.',
+    href: '/games/suika',
+  },
 ]
 
 function Section({
