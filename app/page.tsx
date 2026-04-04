@@ -1,6 +1,9 @@
 const labs: { name: string; description: string; href?: string; wip?: boolean }[] = [
-  // 실험 추가 예시:
-  // { name: 'pretext', description: 'chenglou/pretext 라이브러리 실험', href: '/labs/pretext' },
+  {
+    name: 'pretext',
+    description: 'DOM reflow 없이 텍스트를 측정하고 배치. wave / scatter / reflow 실험 3개.',
+    href: '/labs/pretext',
+  },
 ]
 
 const games: { name: string; description: string; href?: string; wip?: boolean }[] = [
