@@ -5,8 +5,8 @@ import Matter from 'matter-js'
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const FONT_SIZE = 28
-const SPAWN_INTERVAL = 18  // frames between spawns
-const MAX_BODIES = 120
+const SPAWN_INTERVAL = 5   // frames between spawns
+const MAX_BODIES = 220
 
 function randomLetter() {
   return LETTERS[Math.floor(Math.random() * LETTERS.length)]
@@ -28,9 +28,9 @@ export default function LettersPage() {
     canvas.height = H * dpr
     ctx.scale(dpr, dpr)
 
-    const { Engine, Runner, Bodies, Body, Composite, Mouse, MouseConstraint } = Matter
+    const { Engine, Runner, Bodies, Body, Composite } = Matter
 
-    const engine = Engine.create({ gravity: { x: 0, y: 1.5 } })
+    const engine = Engine.create({ gravity: { x: 0, y: 0.7 } })
     const world = engine.world
 
     // Invisible walls (no floor — letters fall off screen)
@@ -39,8 +39,9 @@ export default function LettersPage() {
     const wallR = Bodies.rectangle(W + 25, H / 2, 50, H * 4, wallOpts)
     Composite.add(world, [wallL, wallR])
 
-    // Wiper rod — static, angle controlled by mouse
-    const wiper = Bodies.rectangle(W / 2, H / 2, W * 0.65, 6, {
+    // Wiper rod — auto-oscillates at the bottom
+    const wiperY = H - 60
+    const wiper = Bodies.rectangle(W / 2, wiperY, W * 0.82, 6, {
       isStatic: true,
       friction: 0.0,
       restitution: 0.9,
@@ -48,19 +49,6 @@ export default function LettersPage() {
       label: 'wiper',
     })
     Composite.add(world, wiper)
-
-    // Track mouse for wiper angle
-    let mouseX = W / 2
-    let mouseY = H / 2
-    let prevAngle = 0
-    let wiperAngularVel = 0
-
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      mouseX = e.clientX - rect.left
-      mouseY = e.clientY - rect.top
-    }
-    canvas.addEventListener('mousemove', onMouseMove)
 
     // Letter bodies (dynamic, collide with wiper and walls)
     const letterBodies: Array<Matter.Body & { label: string }> = []
@@ -92,17 +80,12 @@ export default function LettersPage() {
     const draw = () => {
       frame++
 
-      // Update wiper angle toward mouse
-      const targetAngle = Math.atan2(mouseY - H / 2, mouseX - W / 2)
-      const angleDelta = targetAngle - prevAngle
-      // Normalize delta to [-PI, PI]
-      const normalizedDelta = Math.atan2(Math.sin(angleDelta), Math.cos(angleDelta))
-      wiperAngularVel = normalizedDelta * 0.25
-      const newAngle = prevAngle + wiperAngularVel
-      Body.setPosition(wiper, { x: W / 2, y: H / 2 })
-      Body.setAngle(wiper, newAngle)
-      Body.setAngularVelocity(wiper, wiperAngularVel * 3)
-      prevAngle = newAngle
+      // Auto-oscillate wiper at bottom
+      const wiperAngle = Math.sin(frame * 0.022) * Math.PI * 0.42
+      const prevWiperAngle = Math.sin((frame - 1) * 0.022) * Math.PI * 0.42
+      Body.setPosition(wiper, { x: W / 2, y: wiperY })
+      Body.setAngle(wiper, wiperAngle)
+      Body.setAngularVelocity(wiper, (wiperAngle - prevWiperAngle) * 4)
 
       // Spawn letters
       if (frame % SPAWN_INTERVAL === 0 && letterBodies.length < MAX_BODIES) {
@@ -125,7 +108,7 @@ export default function LettersPage() {
       const wx = wiper.position.x
       const wy = wiper.position.y
       const wa = wiper.angle
-      const halfLen = W * 0.65 / 2
+      const halfLen = W * 0.82 / 2
       ctx.save()
       ctx.translate(wx, wy)
       ctx.rotate(wa)
@@ -177,7 +160,6 @@ export default function LettersPage() {
 
     return () => {
       cancelAnimationFrame(animId)
-      canvas.removeEventListener('mousemove', onMouseMove)
       Runner.stop(runner)
       Engine.clear(engine)
       Composite.clear(world, false)

@@ -5,8 +5,7 @@ import Matter from 'matter-js'
 
 const DOMINO_W = 11
 const DOMINO_H = 52
-const COUNT = 22
-const SPACING = 38
+const COUNT = 20
 
 function Simulation({ simKey }: { simKey: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -35,15 +34,18 @@ function Simulation({ simKey }: { simKey: number }) {
     const wallR = Bodies.rectangle(W + 25, H / 2, 50, H * 2, { isStatic: true })
     Composite.add(world, [floor, wallL, wallR])
 
-    const startX = (W - (COUNT - 1) * SPACING) / 2
+    const spacing = 30
+    const totalWidth = (COUNT - 1) * spacing
+    const startX = Math.max(40, (W - totalWidth) / 2)
     const baseY = H - 20 - DOMINO_H / 2
 
     const dominoes: Matter.Body[] = []
     for (let i = 0; i < COUNT; i++) {
-      const d = Bodies.rectangle(startX + i * SPACING, baseY, DOMINO_W, DOMINO_H, {
+      const d = Bodies.rectangle(startX + i * spacing, baseY, DOMINO_W, DOMINO_H, {
         restitution: 0.05,
-        friction: 0.7,
-        frictionStatic: 0.9,
+        friction: 0.4,
+        frictionStatic: 0.5,
+        frictionAir: 0.005,
         label: 'domino',
       })
       dominoes.push(d)
@@ -54,7 +56,7 @@ function Simulation({ simKey }: { simKey: number }) {
     const onClick = () => {
       if (!started) {
         started = true
-        Body.applyForce(dominoes[0], { x: dominoes[0].position.x, y: dominoes[0].position.y - DOMINO_H / 3 }, { x: 0.022, y: 0 })
+        Body.applyForce(dominoes[0], { x: dominoes[0].position.x, y: dominoes[0].position.y - DOMINO_H / 3 }, { x: 0.06, y: 0 })
       }
     }
     canvas.addEventListener('click', onClick)

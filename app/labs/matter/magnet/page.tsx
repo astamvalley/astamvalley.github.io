@@ -82,7 +82,7 @@ export default function MagnetPage() {
           const dx = mouseX - b.position.x
           const dy = mouseY - b.position.y
           const dist = Math.max(5, Math.sqrt(dx * dx + dy * dy))
-          const strength = sign * 0.0028 * (b.mass ?? 1) / Math.max(30, dist)
+          const strength = sign * 0.12 / Math.max(40, dist)
           Body.applyForce(b, b.position, {
             x: (dx / dist) * strength,
             y: (dy / dist) * strength,
