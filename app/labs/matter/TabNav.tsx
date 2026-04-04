@@ -6,6 +6,14 @@ import { usePathname } from 'next/navigation'
 const tabs = [
   { href: '/labs/matter', label: 'Overview', exact: true },
   { href: '/labs/matter/letters', label: 'Letters' },
+  { href: '/labs/matter/cloth', label: 'Cloth' },
+  { href: '/labs/matter/wrecking-ball', label: 'Wrecking Ball' },
+  { href: '/labs/matter/domino', label: 'Domino' },
+  { href: '/labs/matter/sandbox', label: 'Sandbox' },
+  { href: '/labs/matter/magnet', label: 'Magnet' },
+  { href: '/labs/matter/softbody', label: 'Softbody' },
+  { href: '/labs/matter/rope', label: 'Rope' },
+  { href: '/labs/matter/stack', label: 'Stack' },
 ]
 
 export default function TabNav() {
@@ -23,7 +31,7 @@ export default function TabNav() {
         <span className="text-zinc-800 text-xs">/</span>
         <span className="text-xs font-mono text-zinc-400">matter</span>
       </div>
-      <div className="flex gap-1">
+      <div className="flex flex-wrap gap-1">
         {tabs.map((tab) => {
           const active = tab.exact
             ? pathname === tab.href
