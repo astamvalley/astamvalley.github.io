@@ -4,6 +4,11 @@ const labs: { name: string; description: string; href?: string; wip?: boolean }[
     description: 'DOM reflow 없이 텍스트를 측정하고 배치. wave / scatter / reflow 실험 3개.',
     href: '/labs/pretext',
   },
+  {
+    name: 'matter',
+    description: 'Matter.js 2D 물리 엔진 실험. 중력, 충돌, 마우스 인터랙션.',
+    href: '/labs/matter',
+  },
 ]
 
 const games: { name: string; description: string; href?: string; wip?: boolean }[] = [
