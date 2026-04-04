@@ -1,65 +1,94 @@
-import Image from "next/image";
+const labs: { name: string; description: string; href?: string; wip?: boolean }[] = [
+  // 실험 추가 예시:
+  // { name: 'pretext', description: 'chenglou/pretext 라이브러리 실험', href: '/labs/pretext' },
+]
+
+const games: { name: string; description: string; href?: string; wip?: boolean }[] = [
+  // 게임 추가 예시:
+  // { name: 'game-name', description: '...' },
+]
+
+function Section({
+  id,
+  title,
+  items,
+  empty,
+}: {
+  id: string
+  title: string
+  items: { name: string; description: string; href?: string; wip?: boolean }[]
+  empty: string
+}) {
+  return (
+    <section id={id} className="mb-16 scroll-mt-8">
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-[11px] font-mono text-zinc-600 uppercase tracking-widest">{title}</span>
+        {items.length > 0 && (
+          <span className="text-[11px] font-mono text-zinc-700">{items.length}</span>
+        )}
+      </div>
+      <div className="border-t border-zinc-800 mt-3">
+        {items.length === 0 ? (
+          <p className="py-8 text-xs font-mono text-zinc-700">{empty}</p>
+        ) : (
+          items.map((item, i) => {
+            const inner = (
+              <div className="group flex items-start gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors cursor-pointer">
+                <span className="font-mono text-xs text-zinc-700 pt-0.5 w-4 shrink-0 select-none">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-mono text-sm text-zinc-100 group-hover:text-orange-300 transition-colors">
+                      {item.name}
+                    </span>
+                    {item.wip && (
+                      <span className="text-[10px] font-mono text-zinc-600 border border-zinc-800 px-1.5 py-0.5 rounded-sm uppercase tracking-wide">
+                        wip
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-zinc-500">{item.description}</p>
+                </div>
+                <span className="text-zinc-700 group-hover:text-zinc-400 transition-colors text-sm pt-0.5 shrink-0">→</span>
+              </div>
+            )
+            return item.href ? (
+              <a key={item.name} href={item.href}>{inner}</a>
+            ) : (
+              <div key={item.name}>{inner}</div>
+            )
+          })
+        )}
+      </div>
+    </section>
+  )
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    <>
+      <header className="py-16 mb-4">
+        <h1 className="text-2xl font-mono font-semibold text-zinc-100 mb-3 tracking-tight">
+          Lab
+        </h1>
+        <p className="text-sm text-zinc-500 max-w-xs leading-relaxed">
+          라이브러리 실험, 게임, 그리고 이것저것 만들어보는 공간.
+        </p>
+      </header>
+
+      <Section
+        id="labs"
+        title="Labs"
+        items={labs}
+        empty="실험 준비 중 —"
+      />
+      <Section
+        id="games"
+        title="Games"
+        items={games}
+        empty="게임 준비 중 —"
+      />
+    </>
+  )
 }
