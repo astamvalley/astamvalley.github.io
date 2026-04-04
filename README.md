@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# astamvalley.github.io
 
-## Getting Started
+개인 실험 사이트. Next.js + React 기반의 인터랙티브 labs와 게임 모음입니다.
 
-First, run the development server:
+## Labs
+
+| 이름 | 설명 |
+|------|------|
+| [pretext](app/labs/pretext/) | DOM reflow 없이 텍스트를 측정하고 배치. wave / scatter / reflow / ripple / glitch / gravity / flow / vortex / crater 실험. `@chenglou/pretext` 기반. |
+| [matter](app/labs/) | Matter.js 2D 물리 엔진 실험. 중력, 충돌, 마우스 인터랙션. |
+
+## Games
+
+| 이름 | 설명 |
+|------|------|
+| [suika](app/games/suika/) | 수박게임 모티브. 같은 크기끼리 충돌하면 합쳐져 더 큰 원이 된다. Matter.js 물리 엔진 기반. |
+
+## 스택
+
+- Next.js 16 · React 19 · TypeScript
+- Tailwind CSS v4
+- `@chenglou/pretext` — DOM reflow 없는 텍스트 측정 라이브러리
+- Matter.js — 2D 물리 엔진
+
+## 로컬 실행
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
