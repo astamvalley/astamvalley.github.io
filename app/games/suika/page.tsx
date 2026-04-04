@@ -305,11 +305,12 @@ function GameCanvas({
 
 // ── Page ──────────────────────────────────────────────────────────────────
 export default function SuikaPage() {
-  const [score, setScore]       = useState(0)
-  const [best, setBest]         = useState(0)
-  const [gameOver, setGameOver] = useState(false)
+  const [score, setScore]         = useState(0)
+  const [best, setBest]           = useState(0)
+  const [gameOver, setGameOver]   = useState(false)
   const [nextLevel, setNextLevel] = useState(1)
-  const [gameKey, setGameKey]   = useState(0)
+  const [gameKey, setGameKey]     = useState(0)
+  const [started, setStarted]     = useState(false)
 
   const handleGameOver = () => {
     setGameOver(true)
@@ -366,15 +367,46 @@ export default function SuikaPage() {
         </div>
 
         {/* Game */}
-        <div className="relative">
-          <GameCanvas
-            key={gameKey}
-            onScore={setScore}
-            onGameOver={handleGameOver}
-            onNextLevel={setNextLevel}
-          />
+        <div className="relative" style={{ width: GW, height: GH }}>
+          {started && (
+            <GameCanvas
+              key={gameKey}
+              onScore={setScore}
+              onGameOver={handleGameOver}
+              onNextLevel={setNextLevel}
+            />
+          )}
 
-          {gameOver && (
+          {/* Start screen */}
+          {!started && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0f0f11] rounded border border-zinc-800">
+              <p className="font-mono text-2xl font-semibold text-zinc-100 mb-2">suika</p>
+              <p className="text-xs font-mono text-zinc-600 mb-8">같은 크기끼리 합쳐 더 큰 원을 만드세요</p>
+              <div className="flex items-end gap-1 mb-10">
+                {FRUITS.slice(0, 6).map((f, i) => (
+                  <div
+                    key={i}
+                    className="rounded-full"
+                    style={{
+                      width: f.radius * 0.7,
+                      height: f.radius * 0.7,
+                      backgroundColor: f.color + 'cc',
+                      border: `2px solid ${f.border}`,
+                    }}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setStarted(true)}
+                className="font-mono text-sm text-orange-300 border border-orange-400/40 px-8 py-2.5 rounded hover:bg-orange-400/10 transition-colors"
+              >
+                시작하기
+              </button>
+            </div>
+          )}
+
+          {/* Game over */}
+          {started && gameOver && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded">
               <p className="font-mono text-xl text-zinc-100 mb-1">GAME OVER</p>
               <p className="font-mono text-sm text-zinc-500 mb-6">score: {score}</p>
