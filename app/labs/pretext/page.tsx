@@ -41,6 +41,11 @@ const experiments = [
     title: 'Crater',
     description: '클릭하면 구슬이 박히며 충격파로 주변 글자를 날린다. 구슬은 영구 장애물로 남아 크레이터 형태를 유지한다.',
   },
+  {
+    slug: 'gravity',
+    title: 'Gravity',
+    description: '글자들이 중력으로 떨어져 바닥에 쌓인다. 캔버스를 좌우로 드래그하면 흔들린다. pretext로 초기 위치 계산 후 물리 적용.',
+  },
 ]
 
 export default function PretextPage() {

@@ -13,6 +13,7 @@ const tabs = [
   { href: '/labs/pretext/glitch', label: 'Glitch' },
   { href: '/labs/pretext/flow', label: 'Flow' },
   { href: '/labs/pretext/crater', label: 'Crater' },
+  { href: '/labs/pretext/gravity', label: 'Gravity' },
 ]
 
 export default function TabNav() {
