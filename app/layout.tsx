@@ -20,11 +20,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             astamvalley
           </a>
           <div className="flex items-center gap-5">
-            <a href="/#labs" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
-              Labs
+            {/* <a href="/" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
+              Home
+            </a> */}
+            <a href="/" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
+              Lab
             </a>
-            <a href="/#games" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
-              Games
+            <a href="/docs" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
+              Docs
             </a>
             <a
               href="https://astamvalley.github.io/claude-foundation"
