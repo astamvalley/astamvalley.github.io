@@ -17,6 +17,11 @@ const games: { name: string; description: string; href?: string; wip?: boolean }
     description: '수박게임 모티브. 같은 크기끼리 충돌하면 합쳐져 더 큰 원이 된다. Matter.js 물리 엔진 기반.',
     href: '/games/suika',
   },
+  {
+    name: 'falling sand',
+    description: '모래, 물, 불, 연기, 나무. 캔버스 픽셀 시뮬레이션 — 라이브러리 없음.',
+    href: '/games/sand',
+  },
 ]
 
 function Section({
