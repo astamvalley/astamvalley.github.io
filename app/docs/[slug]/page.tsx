@@ -119,6 +119,51 @@ export default async function DocDetailPage({ params }: { params: Promise<{ slug
           </section>
         ))}
       </div>
+
+      {/* Integrations */}
+      {item.integrations && (item.integrations.mcp?.length || item.integrations.cli?.length) && (
+        <div className="mt-12 pt-10 border-t border-zinc-800">
+          <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-5">Integrations</p>
+          <div className="space-y-6">
+            {item.integrations.mcp?.map((entry) => (
+              <div key={entry.name} className="flex gap-4">
+                <span className="text-[10px] font-mono text-violet-500 border border-violet-900 bg-violet-950/30 px-1.5 py-0.5 rounded-sm uppercase tracking-wide self-start shrink-0 mt-0.5">
+                  MCP
+                </span>
+                <div>
+                  <a
+                    href={entry.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-mono text-zinc-300 hover:text-orange-300 transition-colors"
+                  >
+                    {entry.name} ↗
+                  </a>
+                  <p className="text-xs text-zinc-500 leading-relaxed mt-1">{entry.note}</p>
+                </div>
+              </div>
+            ))}
+            {item.integrations.cli?.map((entry) => (
+              <div key={entry.name} className="flex gap-4">
+                <span className="text-[10px] font-mono text-amber-600 border border-amber-900 bg-amber-950/30 px-1.5 py-0.5 rounded-sm uppercase tracking-wide self-start shrink-0 mt-0.5">
+                  CLI
+                </span>
+                <div>
+                  <a
+                    href={entry.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-mono text-zinc-300 hover:text-orange-300 transition-colors"
+                  >
+                    {entry.name} ↗
+                  </a>
+                  <p className="text-xs text-zinc-500 leading-relaxed mt-1">{entry.note}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
