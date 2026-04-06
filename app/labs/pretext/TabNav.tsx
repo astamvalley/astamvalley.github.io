@@ -7,13 +7,14 @@ const tabs = [
   { href: '/labs/pretext', label: 'Overview', exact: true },
   { href: '/labs/pretext/wave', label: 'Wave' },
   { href: '/labs/pretext/scatter', label: 'Scatter' },
-  { href: '/labs/pretext/reflow', label: 'Reflow' },
   { href: '/labs/pretext/vortex', label: 'Vortex' },
   { href: '/labs/pretext/ripple', label: 'Ripple' },
   { href: '/labs/pretext/glitch', label: 'Glitch' },
-  { href: '/labs/pretext/flow', label: 'Flow' },
   { href: '/labs/pretext/crater', label: 'Crater' },
   { href: '/labs/pretext/gravity', label: 'Gravity' },
+  { href: '/labs/pretext/magnetic', label: 'Magnetic' },
+  { href: '/labs/pretext/melt', label: 'Melt' },
+  { href: '/labs/pretext/assemble', label: 'Assemble' },
 ]
 
 export default function TabNav() {
