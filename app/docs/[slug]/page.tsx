@@ -23,6 +23,8 @@ export default async function DocDetailPage({ params }: { params: Promise<{ slug
   const item = bookmarks.find((b) => b.slug === slug)
   if (!item) notFound()
 
+  const isLearning = item.category === 'Learning'
+
   return (
     <div className="max-w-xl">
       <Link
@@ -39,9 +41,11 @@ export default async function DocDetailPage({ params }: { params: Promise<{ slug
             <h1 className="font-mono text-2xl font-semibold text-zinc-50 mb-1">{item.name}</h1>
             <p className="text-[11px] font-mono text-zinc-600">{item.category}</p>
           </div>
-          <span className={`text-[10px] font-mono border px-2 py-1 rounded-sm uppercase tracking-wide shrink-0 mt-1 ${pricingStyle[item.pricing.type]}`}>
-            {item.pricing.label}
-          </span>
+          {!isLearning && item.pricing && (
+            <span className={`text-[10px] font-mono border px-2 py-1 rounded-sm uppercase tracking-wide shrink-0 mt-1 ${pricingStyle[item.pricing.type]}`}>
+              {item.pricing.label}
+            </span>
+          )}
         </div>
 
         <p className="text-sm text-zinc-400 leading-relaxed mb-6">{item.tagline}</p>
@@ -60,59 +64,63 @@ export default async function DocDetailPage({ params }: { params: Promise<{ slug
         </div>
       </header>
 
-      {/* 플랫폼 + 가격 */}
-      <div className="mb-10 p-4 rounded border border-zinc-800 bg-zinc-900/40 space-y-4">
-        <div>
-          <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-2">플랫폼</p>
-          <div className="flex flex-wrap gap-1.5">
-            {item.platforms.map((p) => (
-              <span key={p} className="text-[10px] font-mono text-zinc-500 border border-zinc-800 px-1.5 py-0.5 rounded-sm">
-                {p}
-              </span>
-            ))}
+      {/* 툴 전용: 플랫폼 + 가격 */}
+      {!isLearning && item.platforms && item.pricing && (
+        <div className="mb-10 p-4 rounded border border-zinc-800 bg-zinc-900/40 space-y-4">
+          <div>
+            <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-2">플랫폼</p>
+            <div className="flex flex-wrap gap-1.5">
+              {item.platforms.map((p) => (
+                <span key={p} className="text-[10px] font-mono text-zinc-500 border border-zinc-800 px-1.5 py-0.5 rounded-sm">
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-2">가격</p>
+            <p className="text-sm text-zinc-400 leading-relaxed">{item.pricing.detail}</p>
           </div>
         </div>
-        <div>
-          <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-2">가격</p>
-          <p className="text-sm text-zinc-400 leading-relaxed">{item.pricing.detail}</p>
-        </div>
-      </div>
+      )}
 
-      {/* 장단점 */}
-      <div className="mb-10 grid grid-cols-2 gap-4">
-        <div className="p-4 rounded border border-zinc-800 bg-zinc-900/20">
-          <p className="text-[10px] font-mono text-emerald-700 uppercase tracking-widest mb-3">장점</p>
-          <ul className="space-y-2">
-            {item.pros.map((pro) => (
-              <li key={pro} className="text-xs text-zinc-400 leading-relaxed flex gap-2">
-                <span className="text-emerald-700 shrink-0 mt-0.5">+</span>
-                {pro}
-              </li>
-            ))}
-          </ul>
+      {/* 툴 전용: 장단점 */}
+      {!isLearning && item.pros && item.cons && (
+        <div className="mb-10 grid grid-cols-2 gap-4">
+          <div className="p-4 rounded border border-zinc-800 bg-zinc-900/20">
+            <p className="text-[10px] font-mono text-emerald-700 uppercase tracking-widest mb-3">장점</p>
+            <ul className="space-y-2">
+              {item.pros.map((pro) => (
+                <li key={pro} className="text-xs text-zinc-400 leading-relaxed flex gap-2">
+                  <span className="text-emerald-700 shrink-0 mt-0.5">+</span>
+                  {pro}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="p-4 rounded border border-zinc-800 bg-zinc-900/20">
+            <p className="text-[10px] font-mono text-red-900 uppercase tracking-widest mb-3">단점</p>
+            <ul className="space-y-2">
+              {item.cons.map((con) => (
+                <li key={con} className="text-xs text-zinc-400 leading-relaxed flex gap-2">
+                  <span className="text-red-900 shrink-0 mt-0.5">−</span>
+                  {con}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="p-4 rounded border border-zinc-800 bg-zinc-900/20">
-          <p className="text-[10px] font-mono text-red-900 uppercase tracking-widest mb-3">단점</p>
-          <ul className="space-y-2">
-            {item.cons.map((con) => (
-              <li key={con} className="text-xs text-zinc-400 leading-relaxed flex gap-2">
-                <span className="text-red-900 shrink-0 mt-0.5">−</span>
-                {con}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      )}
 
       {/* 본문 섹션들 */}
-      <div className="space-y-10">
+      <div className={isLearning ? 'space-y-12' : 'space-y-10'}>
         {item.sections.map((section) => (
           <section key={section.title}>
-            <h2 className="text-[11px] font-mono text-zinc-600 uppercase tracking-widest mb-3">
+            <h2 className={`font-mono uppercase tracking-widest mb-3 ${isLearning ? 'text-xs text-zinc-500' : 'text-[11px] text-zinc-600'}`}>
               {section.title}
             </h2>
             <div className="border-t border-zinc-800 pt-4">
-              <p className="text-sm text-zinc-400 leading-relaxed whitespace-pre-line">
+              <p className={`leading-relaxed whitespace-pre-line ${isLearning ? 'text-sm text-zinc-300' : 'text-sm text-zinc-400'}`}>
                 {section.body}
               </p>
             </div>

@@ -11,14 +11,14 @@ export interface BookmarkItem {
   url: string
   tagline: string
   description: string
-  platforms: string[]
-  pricing: {
+  platforms?: string[]
+  pricing?: {
     type: 'free' | 'freemium' | 'paid'
     label: string
     detail: string
   }
-  pros: string[]
-  cons: string[]
+  pros?: string[]
+  cons?: string[]
   sections: { title: string; body: string }[]
   integrations?: {
     mcp?: Integration[]
@@ -120,35 +120,32 @@ export const bookmarks: BookmarkItem[] = [
     name: 'Frontend Fundamentals',
     category: 'Learning',
     url: 'https://frontend-fundamentals.com/',
-    tagline: '변경하기 쉬운 코드를 작성하는 방법에 대한 프론트엔드 가이드.',
-    description: '토스 프론트엔드 팀이 정리한 코드 품질 가이드. 응집도·결합도·가독성 중심으로 좋은 코드의 기준을 구체적인 예시로 설명.',
-    platforms: ['Web', 'GitHub'],
-    pricing: {
-      type: 'free',
-      label: 'Free',
-      detail: '오픈소스, 완전 무료.',
-    },
-    pros: [
-      '추상적인 원칙 대신 실제 코드 예시로 설명',
-      '토스라는 대형 프로덕트에서 검증된 기준',
-      '한국어로 작성되어 접근성이 높음',
-    ],
-    cons: [
-      'React/TypeScript 중심 예시 — 다른 스택엔 직접 적용이 어려울 수 있음',
-      '특정 팀의 컨벤션이라 모든 상황에 정답은 아님',
-    ],
+    tagline: '변경하기 쉬운 코드를 작성하는 방법에 대한 프론트엔드 지침서.',
+    description: '토스 프론트엔드 팀이 정리한 코드 품질 가이드. 가독성·예측 가능성·응집도·결합도 4가지 관점에서 구체적인 Before/After 예시로 좋은 코드의 기준을 설명한다.',
     sections: [
       {
-        title: '무엇인가',
-        body: 'Frontend Fundamentals는 토스 프론트엔드 팀이 공개한 코드 품질 가이드다. "좋은 코드"를 막연하게 설명하는 대신, 변경하기 쉬운 코드란 무엇인지 응집도·결합도·가독성·추상화 등의 관점에서 구체적인 Before/After 예시로 풀어낸다.',
+        title: '개요',
+        body: 'Frontend Fundamentals는 "변경하기 쉬운 프론트엔드 코드를 위한 지침서"다. 좋은 코드를 막연하게 설명하는 대신, 가독성·예측 가능성·응집도·결합도라는 4가지 관점에서 구체적인 Before/After 예시로 풀어낸다.\n\n토스 프론트엔드 팀이 실제 프로덕트에서 검증한 기준을 오픈소스로 공개했으며, 15개 이상의 실전 사례 연구로 구성된다.',
       },
       {
-        title: '주요 내용',
-        body: '• 응집도 — 함께 바뀌는 것들은 함께 두어야 하는 이유\n• 결합도 — 의존성을 줄여 변경이 전파되지 않도록 하는 방법\n• 가독성 — 코드를 처음 읽는 사람이 빠르게 이해할 수 있는 구조\n• 추상화 — 언제 추상화하고, 언제 하지 말아야 하는가',
+        title: '가독성 (Readability)',
+        body: '코드를 처음 읽는 사람이 빠르게 이해할 수 있는 구조를 만드는 방법.\n\n• 맥락 줄이기 — 함께 실행되지 않는 코드 분리, 구현 상세 추상화, 함수 분할\n• 이름 붙이기 — 복잡한 조건식과 매직 넘버에 이름 부여\n• 순차적 읽기 — 코드 읽는 시점의 이동 최소화, 삼항 연산자 단순화, 좌우 순서 최적화',
       },
       {
-        title: '이런 사람에게 유용',
-        body: '코드 리뷰에서 "왜 이렇게 짜야 해요?"라는 질문에 논리적으로 답하고 싶은 개발자. 팀 내 코딩 컨벤션을 정립하거나, 주니어 온보딩 자료로도 활용하기 좋다.',
+        title: '예측 가능성 (Predictability)',
+        body: '코드가 예상대로 동작한다는 신뢰를 만드는 방법.\n\n• 이름 충돌 방지 — 같은 이름이 다른 의미로 쓰이지 않도록\n• 유사 함수의 반환 타입 통일 — 같은 패턴의 함수는 같은 형태로 반환\n• 숨은 로직 명시화 — 부수 효과나 암묵적 동작을 코드 구조로 드러내기',
+      },
+      {
+        title: '응집도 (Cohesion)',
+        body: '함께 변경되는 것들을 함께 두는 방법.\n\n• 함께 수정되는 파일의 같은 디렉토리 배치 — 관련 코드를 가까이\n• 매직 넘버 제거 — 의미 있는 상수로 응집\n• 폼 요소의 응집도 최적화 — 연관된 상태와 핸들러를 한 곳에서 관리',
+      },
+      {
+        title: '결합도 (Coupling)',
+        body: '변경이 전파되지 않도록 의존성을 줄이는 방법.\n\n• 단일 책임 관리 — 한 모듈이 여러 관심사를 갖지 않도록\n• 중복 코드 허용 — 억지로 공통화하면 결합도가 높아질 수 있다. 변경 패턴이 같을 때만 추상화\n• Props Drilling 제거 — 컴포넌트 트리를 통한 불필요한 의존성 차단',
+      },
+      {
+        title: '구성 방식',
+        body: '각 원칙은 구체적인 사례 연구로 설명한다. 버튼, HTTP 요청, 폼 필드, 모달 등 실제 UI 컴포넌트를 예시로 삼아 Before/After 코드를 나란히 보여준다.\n\n한국어, 영어, 일본어, 중국어 간체를 지원하며, GitHub 토론을 통해 커뮤니티가 함께 가이드를 발전시키고 있다.',
       },
     ],
     updatedAt: '2026-04-05',
@@ -272,40 +269,45 @@ export const bookmarks: BookmarkItem[] = [
   {
     slug: 'agentskills',
     name: 'Agent Skills',
-    category: 'Dev Tools',
+    category: 'Learning',
     url: 'https://agentskills.io/',
-    tagline: 'AI 에이전트에게 새로운 능력을 부여하는 오픈 스킬 포맷.',
-    description: 'Anthropic이 주도하는 오픈 표준. 지시문·스크립트·리소스를 담은 폴더 하나로 에이전트 능력을 확장하고 공유.',
-    platforms: ['Web', 'GitHub', 'Claude Code', 'GitHub Copilot'],
-    pricing: {
-      type: 'free',
-      label: 'Free',
-      detail: '완전 무료 오픈소스.',
-    },
-    pros: [
-      'Claude Code, GitHub Copilot 등 여러 에이전트에서 동작하는 크로스-플랫폼 표준',
-      '스킬 하나로 반복 워크플로우를 자동화',
-      'Anthropic 공식 지원 포맷',
-    ],
-    cons: [
-      'MCP에 비해 아직 생태계 초기 단계',
-      '에이전트마다 지원 범위가 다를 수 있음',
-    ],
+    tagline: 'AI 에이전트에게 새로운 능력을 부여하는 오픈 포맷 스펙.',
+    description: 'Anthropic이 개발하고 오픈 표준으로 공개한 스킬 포맷. SKILL.md 파일 하나로 에이전트 능력을 정의하고 Claude Code, GitHub Copilot, Cursor, Gemini CLI 등 30개 이상 에이전트에서 재사용 가능.',
     sections: [
       {
-        title: '무엇인가',
-        body: 'Agent Skills는 에이전트에게 새로운 능력을 부여하는 오픈 포맷이다. 스킬은 지시문, 스크립트, 리소스로 구성된 폴더이며, 에이전트가 이를 발견하고 실행해 특정 작업을 더 잘 수행하게 된다. Anthropic이 개발하고 오픈 표준으로 공개했으며, Claude Code와 GitHub Copilot 등이 채택하고 있다.',
+        title: '개요',
+        body: 'Agent Skills는 AI 에이전트에게 새로운 능력을 부여하는 오픈 포맷이다. Anthropic이 개발하고 오픈 표준으로 공개했으며, Claude Code, GitHub Copilot, Cursor, Gemini CLI, OpenCode, Junie, Amp, Goose 등 30개 이상의 에이전트 제품이 채택하고 있다.\n\n에이전트는 갈수록 강력해지지만 실제 작업을 신뢰성 있게 수행하기 위한 컨텍스트가 부족한 경우가 많다. 스킬은 에이전트가 필요할 때 불러올 수 있는 절차적 지식과 팀·조직·사용자별 맥락을 제공해 이 문제를 해결한다.',
       },
       {
-        title: '주요 기능',
-        body: '• 스킬 포맷 — SKILL.md 파일 하나로 에이전트 능력 정의\n• 크로스-에이전트 — Claude Code, GitHub Copilot, Cursor 등 여러 에이전트에서 동작\n• 레지스트리 — agentskills.io에서 커뮤니티 스킬 탐색 및 설치\n• 슬래시 커맨드 — /skill-name 형태로 대화 중 호출',
+        title: '스킬 구조',
+        body: '스킬은 최소한 SKILL.md 파일 하나를 포함하는 디렉토리다.\n\nskill-name/\n├── SKILL.md          # 필수: 메타데이터 + 지시문\n├── scripts/          # 선택: 실행 가능한 코드\n├── references/       # 선택: 추가 문서\n└── assets/           # 선택: 템플릿, 리소스\n\nSKILL.md 파일은 YAML 프론트매터와 마크다운 본문으로 구성된다.',
       },
       {
-        title: '이런 사람에게 유용',
-        body: 'Claude Code나 GitHub Copilot을 자주 쓰는 개발자가 반복 워크플로우를 자동화하고 싶을 때. 팀 단위로 동일한 컨텍스트·규칙을 에이전트에 공유하려는 경우에도 유용하다.',
+        title: 'SKILL.md 프론트매터',
+        body: '프론트매터에 사용할 수 있는 필드:\n\n• name (필수) — 스킬 식별자. 소문자·숫자·하이픈만 허용, 1–64자. 디렉토리명과 일치해야 함\n• description (필수) — 스킬이 무엇을 하는지, 언제 사용하는지 설명. 1–1024자. 에이전트가 이 필드를 보고 스킬 활성화 여부를 결정함\n• license (선택) — 라이선스명 또는 번들 라이선스 파일 참조\n• compatibility (선택) — 환경 요구사항. 의도한 제품, 시스템 패키지, 네트워크 접근 등. 1–500자\n• metadata (선택) — 추가 메타데이터를 위한 키-값 맵\n• allowed-tools (선택, 실험적) — 사전 승인된 도구 목록. 공백으로 구분\n\n최소 예시:\n---\nname: my-skill\ndescription: 무엇을 하는지, 언제 사용하는지 설명.\n---',
+      },
+      {
+        title: '동작 방식 — Progressive Disclosure',
+        body: '스킬은 3단계 점진적 공개 방식으로 동작해 컨텍스트를 효율적으로 관리한다.\n\n1. Discovery — 에이전트 시작 시 모든 스킬의 name과 description만 로드(~100 토큰). 어떤 스킬이 있는지 파악하는 단계\n2. Activation — 작업이 스킬 description과 매칭되면 SKILL.md 전체 본문을 컨텍스트에 로드. 5,000 토큰 이내 권장\n3. Execution — 에이전트가 지시문을 따르며, 필요 시 scripts/, references/, assets/ 파일을 추가 로드\n\nSKILL.md 본문은 500줄 이내로 유지하고, 상세 레퍼런스는 references/ 하위 파일로 분리하는 것을 권장한다.',
+      },
+      {
+        title: '본문(Body) 작성',
+        body: '프론트매터 이후 마크다운 본문에 실제 지시문을 작성한다. 형식 제한은 없으나 아래 항목을 포함하는 것을 권장한다.\n\n• 단계별 지시문\n• 입력/출력 예시\n• 자주 발생하는 엣지 케이스\n\n에이전트가 스킬을 활성화하면 SKILL.md 전체를 한 번에 로드한다. 본문이 길어질 경우 references/ 디렉토리의 개별 파일로 분리하고 파일 참조를 사용한다.',
+      },
+      {
+        title: '선택 디렉토리',
+        body: '• scripts/ — 에이전트가 실행할 수 있는 코드. Python, Bash, JavaScript 등 에이전트 구현에 따라 지원 언어가 다름. 독립적으로 동작하거나 의존성을 명확히 문서화해야 함\n• references/ — 에이전트가 필요 시 읽는 추가 문서. REFERENCE.md, 도메인별 파일 등. 각 파일은 집중적으로 유지 — 에이전트가 온디맨드로 로드하므로 작을수록 좋음\n• assets/ — 정적 리소스. 템플릿, 다이어그램, 데이터 파일 등',
+      },
+      {
+        title: '채택 에이전트',
+        body: 'Agent Skills 포맷을 지원하는 주요 에이전트 및 도구:\n\nClaude Code, GitHub Copilot, VS Code, Cursor, Gemini CLI, OpenAI Codex, OpenCode, Junie (JetBrains), Amp, Goose, OpenHands, Roo Code, Letta, Firebender, Mux, Laravel Boost, Factory, Snowflake Cortex Code, Kiro, Spring AI, TRAE 등 30개 이상',
+      },
+      {
+        title: '검증',
+        body: 'skills-ref 라이브러리로 스킬의 유효성을 검사할 수 있다.\n\nskills-ref validate ./my-skill\n\nSKILL.md 프론트매터 유효성과 네이밍 컨벤션 준수 여부를 확인한다.\nGitHub: github.com/agentskills/agentskills',
       },
     ],
-    updatedAt: '2026-04-05',
+    updatedAt: '2026-04-06',
   },
   {
     slug: 'agentation',
