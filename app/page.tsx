@@ -1,13 +1,59 @@
 const labs: { name: string; description: string; href?: string; wip?: boolean }[] = [
   {
     name: 'pretext',
-    description: 'DOM reflow 없이 텍스트를 측정하고 배치. wave / scatter / reflow 실험 3개.',
+    description: 'DOM reflow 없이 텍스트를 측정하고 배치. wave / scatter / magnetic / melt / assemble 등.',
     href: '/labs/pretext',
   },
   {
     name: 'matter',
-    description: 'Matter.js 2D 물리 엔진 실험. 중력, 충돌, 마우스 인터랙션.',
+    description: 'Matter.js 2D 물리 엔진 실험. 중력, 충돌, 제약조건, 마우스 인터랙션.',
     href: '/labs/matter',
+  },
+  {
+    name: 'sim',
+    description: '알고리즘 기반 시뮬레이션. Game of Life, Boids 군집, Perlin Noise 지형.',
+    href: '/labs/sim',
+  },
+]
+
+const craft: { name: string; description: string; href?: string; wip?: boolean }[] = [
+  {
+    name: 'glass',
+    description: 'Glassmorphism 파라미터 탐구. blur / opacity / saturation 슬라이더로 실시간 조절.',
+    href: '/craft/glass',
+  },
+  {
+    name: 'noise',
+    description: 'SVG feTurbulence 필터 플레이그라운드. frequency · octave · blend mode 조합.',
+    href: '/craft/noise',
+  },
+  {
+    name: 'gradient',
+    description: '애니메이션 그라디언트 메쉬. 4개 색상 피커와 속도 슬라이더로 편집.',
+    href: '/craft/gradient',
+  },
+]
+
+const audio: { name: string; description: string; href?: string; wip?: boolean }[] = [
+  {
+    name: 'oscilloscope',
+    description: '실시간 파형 + FFT 시각화. sine / square / sawtooth / triangle, 주파수 · 볼륨 조절.',
+    href: '/audio/oscilloscope',
+  },
+  {
+    name: 'synth',
+    description: '2옥타브 폴리포닉 신디사이저. 마우스 · 키보드 연주, ADSR, 딜레이 이펙트.',
+    href: '/audio/synth',
+  },
+  {
+    name: 'sequencer',
+    description: '4트랙 × 16스텝 비트 시퀀서. KICK / SNARE / HI-HAT / PERC, BPM 조절.',
+    href: '/audio/sequencer',
+  },
+  {
+    name: 'piano',
+    description: 'Salamander Grand Piano 실제 샘플 기반. 피치 시프팅 + sustain 페달 + reverb.',
+    href: '/audio/piano',
   },
 ]
 
@@ -104,6 +150,18 @@ export default function Home() {
         title="Games"
         items={games}
         empty="게임 준비 중 —"
+      />
+      <Section
+        id="craft"
+        title="Craft"
+        items={craft}
+        empty="준비 중 —"
+      />
+      <Section
+        id="audio"
+        title="Audio"
+        items={audio}
+        empty="준비 중 —"
       />
     </>
   )
