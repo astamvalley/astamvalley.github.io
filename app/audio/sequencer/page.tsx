@@ -228,14 +228,35 @@ export default function SequencerPage() {
     setGrid(makeEmptyGrid())
   }, [])
 
-  // Preset pattern
-  const loadPreset = useCallback(() => {
-    setGrid({
-      KICK:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0].map(Boolean),
-      SNARE:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0].map(Boolean),
-      'HI-HAT':[1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0].map(Boolean),
-      PERC:    [0,0,0,1, 0,0,1,0, 0,0,0,1, 0,1,0,0].map(Boolean),
-    })
+  const PRESETS: Record<string, Grid> = {
+    Rock: {
+      KICK:     [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0].map(Boolean),
+      SNARE:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0].map(Boolean),
+      'HI-HAT': [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0].map(Boolean),
+      PERC:     [0,0,0,0, 0,0,0,0, 0,0,0,1, 0,0,0,0].map(Boolean),
+    },
+    House: {
+      KICK:     [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0].map(Boolean),
+      SNARE:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0].map(Boolean),
+      'HI-HAT': [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1].map(Boolean),
+      PERC:     [0,0,0,0, 0,0,1,0, 0,0,0,0, 0,1,0,1].map(Boolean),
+    },
+    Bossa: {
+      KICK:     [1,0,0,1, 0,0,1,0, 0,1,0,0, 1,0,0,0].map(Boolean),
+      SNARE:    [0,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,1,0].map(Boolean),
+      'HI-HAT': [1,0,1,0, 0,1,0,1, 1,0,1,0, 0,1,0,0].map(Boolean),
+      PERC:     [0,1,0,0, 1,0,0,1, 0,0,1,0, 0,0,0,1].map(Boolean),
+    },
+    Trap: {
+      KICK:     [1,0,0,0, 0,0,1,0, 0,1,0,0, 1,0,0,0].map(Boolean),
+      SNARE:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,1,0].map(Boolean),
+      'HI-HAT': [1,1,0,1, 1,0,1,1, 0,1,1,0, 1,1,0,1].map(Boolean),
+      PERC:     [0,0,1,0, 0,1,0,0, 1,0,0,1, 0,0,1,0].map(Boolean),
+    },
+  }
+
+  const loadPreset = useCallback((name: string) => {
+    if (PRESETS[name]) setGrid(PRESETS[name])
   }, [])
 
   // Cleanup
@@ -255,6 +276,7 @@ export default function SequencerPage() {
 
   return (
     <div className="max-w-2xl">
+      <a href="/" className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mt-12 mb-10">← Home</a>
       <header className="mb-8">
         <h1 className="font-mono text-lg font-semibold text-zinc-100 mb-2">
           Beat Sequencer
@@ -289,13 +311,16 @@ export default function SequencerPage() {
           <span className="text-sm font-mono text-orange-300 w-8 text-right">{bpm}</span>
         </div>
 
-        <div className="flex gap-2">
-          <button
-            onClick={loadPreset}
-            className="text-xs font-mono px-3 py-1.5 rounded border border-zinc-700 text-zinc-500 hover:text-zinc-300 transition-colors"
-          >
-            preset
-          </button>
+        <div className="flex gap-2 flex-wrap">
+          {['Rock', 'House', 'Bossa', 'Trap'].map((name) => (
+            <button
+              key={name}
+              onClick={() => loadPreset(name)}
+              className="text-xs font-mono px-3 py-1.5 rounded border border-zinc-700 text-zinc-500 hover:text-zinc-300 transition-colors"
+            >
+              {name}
+            </button>
+          ))}
           <button
             onClick={clearGrid}
             className="text-xs font-mono px-3 py-1.5 rounded border border-zinc-700 text-zinc-500 hover:text-zinc-300 transition-colors"
