@@ -14,13 +14,13 @@ const NOTE_FREQUENCIES: Record<string, number> = {
   'G#4': 415.3, A4: 440.0, 'A#4': 466.16, B4: 493.88,
 }
 
-// White keys in order
+// White keys: C3 to E4 (matches keyboard shortcuts a–;)
 const WHITE_KEYS = [
   'C3','D3','E3','F3','G3','A3','B3',
-  'C4','D4','E4','F4','G4','A4','B4',
+  'C4','D4','E4',
 ]
 
-// Black keys: note name → position (index between white keys, 0-based)
+// Black keys within C3–E4 range
 const BLACK_KEYS: { note: string; position: number }[] = [
   { note: 'C#3', position: 0 },
   { note: 'D#3', position: 1 },
@@ -29,10 +29,15 @@ const BLACK_KEYS: { note: string; position: number }[] = [
   { note: 'A#3', position: 5 },
   { note: 'C#4', position: 7 },
   { note: 'D#4', position: 8 },
-  { note: 'F#4', position: 10 },
-  { note: 'G#4', position: 11 },
-  { note: 'A#4', position: 12 },
 ]
+
+// Note → keyboard shortcut label
+const NOTE_KEY_LABEL: Record<string, string> = {
+  C3:'a', D3:'s', E3:'d', F3:'f', G3:'g', A3:'h', B3:'j',
+  C4:'k', D4:'l', E4:';',
+  'C#3':'w', 'D#3':'e', 'F#3':'t', 'G#3':'y', 'A#3':'u',
+  'C#4':'o', 'D#4':'p',
+}
 
 // Keyboard mapping: key → note
 const KEY_MAP: Record<string, string> = {
@@ -46,6 +51,50 @@ interface ActiveNote {
   osc: OscillatorNode
   gain: GainNode
   delayIn?: GainNode
+}
+
+// note: null = rest, dur: beats (1 = quarter note at given BPM)
+type Step = { note: string | null; dur: number }
+
+const MELODIES: Record<string, { bpm: number; steps: Step[] }> = {
+  'Für Elise': {
+    bpm: 96,
+    steps: [
+      {note:'E4',dur:0.5},{note:'D#4',dur:0.5},{note:'E4',dur:0.5},{note:'D#4',dur:0.5},
+      {note:'E4',dur:0.5},{note:'B3',dur:0.5},{note:'D4',dur:0.5},{note:'C4',dur:0.5},
+      {note:'A3',dur:1},{note:null,dur:0.5},{note:'C3',dur:0.5},{note:'E3',dur:0.5},{note:'A3',dur:0.5},
+      {note:'B3',dur:1},{note:null,dur:0.5},{note:'E3',dur:0.5},{note:'G#3',dur:0.5},{note:'B3',dur:0.5},
+      {note:'C4',dur:1},{note:null,dur:0.5},{note:'E3',dur:0.5},{note:'E4',dur:0.5},{note:'D#4',dur:0.5},
+      {note:'E4',dur:0.5},{note:'D#4',dur:0.5},{note:'E4',dur:0.5},{note:'B3',dur:0.5},{note:'D4',dur:0.5},{note:'C4',dur:0.5},
+      {note:'A3',dur:1.5},
+    ],
+  },
+  'Twinkle': {
+    bpm: 110,
+    steps: [
+      {note:'C3',dur:1},{note:'C3',dur:1},{note:'G3',dur:1},{note:'G3',dur:1},
+      {note:'A3',dur:1},{note:'A3',dur:1},{note:'G3',dur:2},
+      {note:'F3',dur:1},{note:'F3',dur:1},{note:'E3',dur:1},{note:'E3',dur:1},
+      {note:'D3',dur:1},{note:'D3',dur:1},{note:'C3',dur:2},
+      {note:'G3',dur:1},{note:'G3',dur:1},{note:'F3',dur:1},{note:'F3',dur:1},
+      {note:'E3',dur:1},{note:'E3',dur:1},{note:'D3',dur:2},
+      {note:'G3',dur:1},{note:'G3',dur:1},{note:'F3',dur:1},{note:'F3',dur:1},
+      {note:'E3',dur:1},{note:'E3',dur:1},{note:'D3',dur:2},
+    ],
+  },
+  'Ode to Joy': {
+    bpm: 108,
+    steps: [
+      {note:'E3',dur:1},{note:'E3',dur:1},{note:'F3',dur:1},{note:'G3',dur:1},
+      {note:'G3',dur:1},{note:'F3',dur:1},{note:'E3',dur:1},{note:'D3',dur:1},
+      {note:'C3',dur:1},{note:'C3',dur:1},{note:'D3',dur:1},{note:'E3',dur:1},
+      {note:'E3',dur:1.5},{note:'D3',dur:0.5},{note:'D3',dur:2},
+      {note:'E3',dur:1},{note:'E3',dur:1},{note:'F3',dur:1},{note:'G3',dur:1},
+      {note:'G3',dur:1},{note:'F3',dur:1},{note:'E3',dur:1},{note:'D3',dur:1},
+      {note:'C3',dur:1},{note:'C3',dur:1},{note:'D3',dur:1},{note:'E3',dur:1},
+      {note:'D3',dur:1.5},{note:'C3',dur:0.5},{note:'C3',dur:2},
+    ],
+  },
 }
 
 const WAVEFORMS: { type: WaveType; label: string }[] = [
@@ -68,6 +117,8 @@ export default function SynthPage() {
   const [masterVolume, setMasterVolume] = useState(70)
   const [delayOn, setDelayOn] = useState(false)
   const [pressedNotes, setPressedNotes] = useState<Set<string>>(new Set())
+  const [playingMelody, setPlayingMelody] = useState<string | null>(null)
+  const melodyTimersRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   // Refs for up-to-date values in callbacks
   const waveTypeRef = useRef(waveType)
@@ -200,9 +251,38 @@ export default function SynthPage() {
     }
   }, [noteOn, noteOff])
 
+  const stopMelody = useCallback(() => {
+    melodyTimersRef.current.forEach(clearTimeout)
+    melodyTimersRef.current = []
+    activeNotesRef.current.forEach((_, note) => noteOff(note))
+    setPlayingMelody(null)
+  }, [noteOff])
+
+  const playMelody = useCallback((name: string) => {
+    if (playingMelody) { stopMelody(); return }
+    const melody = MELODIES[name]
+    if (!melody) return
+    setPlayingMelody(name)
+
+    const beatMs = (60 / melody.bpm) * 1000
+    let t = 0
+    melody.steps.forEach(({ note, dur }) => {
+      const durMs = dur * beatMs
+      if (note) {
+        const onTimer = setTimeout(() => noteOn(note), t)
+        const offTimer = setTimeout(() => noteOff(note), t + durMs * 0.85)
+        melodyTimersRef.current.push(onTimer, offTimer)
+      }
+      t += durMs
+    })
+    const endTimer = setTimeout(() => setPlayingMelody(null), t)
+    melodyTimersRef.current.push(endTimer)
+  }, [playingMelody, stopMelody, noteOn, noteOff])
+
   // Cleanup
   useEffect(() => {
     return () => {
+      melodyTimersRef.current.forEach(clearTimeout)
       activeNotesRef.current.forEach(({ osc }) => {
         try { osc.stop() } catch {}
       })
@@ -218,6 +298,7 @@ export default function SynthPage() {
 
   return (
     <div className="max-w-2xl">
+      <a href="/" className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mt-12 mb-10">← Home</a>
       <header className="mb-8">
         <h1 className="font-mono text-lg font-semibold text-zinc-100 mb-2">
           Polyphonic Synthesizer
@@ -264,11 +345,11 @@ export default function SynthPage() {
                     zIndex: 1,
                   }}
                 >
-                  <span
-                    className="absolute bottom-2 left-0 right-0 text-center text-[9px] font-mono text-zinc-600 select-none"
-                  >
-                    {note.replace(/[#\d]/g, '')}
-                    {note.includes('3') ? '3' : '4'}
+                  <span className="absolute bottom-6 left-0 right-0 text-center text-[9px] font-mono text-zinc-500 select-none">
+                    {note.replace(/[#\d]/g, '')}{note.includes('3') ? '3' : '4'}
+                  </span>
+                  <span className="absolute bottom-2 left-0 right-0 text-center text-[9px] font-mono text-zinc-700 select-none">
+                    {NOTE_KEY_LABEL[note]}
                   </span>
                 </div>
               )
@@ -285,7 +366,7 @@ export default function SynthPage() {
                   onMouseLeave={() => { if (pressedNotes.has(note)) noteOff(note) }}
                   onTouchStart={(e) => { e.preventDefault(); noteOn(note) }}
                   onTouchEnd={(e) => { e.preventDefault(); noteOff(note) }}
-                  className={`absolute rounded-b cursor-pointer transition-colors ${
+                  className={`absolute rounded-b cursor-pointer transition-colors flex flex-col items-center justify-end pb-1.5 ${
                     active
                       ? 'bg-orange-400'
                       : 'bg-zinc-950 hover:bg-zinc-800 border border-zinc-700'
@@ -297,10 +378,34 @@ export default function SynthPage() {
                     height: BLACK_KEY_H,
                     zIndex: 2,
                   }}
-                />
+                >
+                  <span className="text-[8px] font-mono text-zinc-600 select-none">
+                    {NOTE_KEY_LABEL[note]}
+                  </span>
+                </div>
               )
             })}
           </div>
+        </div>
+      </div>
+
+      {/* Melody presets */}
+      <div className="mb-8">
+        <p className="text-[11px] font-mono text-zinc-600 uppercase tracking-widest mb-3">예제 악보</p>
+        <div className="flex gap-2 flex-wrap">
+          {Object.keys(MELODIES).map((name) => (
+            <button
+              key={name}
+              onClick={() => playMelody(name)}
+              className={`text-xs font-mono px-3 py-1.5 rounded border transition-colors ${
+                playingMelody === name
+                  ? 'bg-orange-400/15 text-orange-300 border-orange-400/30'
+                  : 'text-zinc-500 border-zinc-700 hover:text-zinc-300'
+              }`}
+            >
+              {playingMelody === name ? '■ ' : '▶ '}{name}
+            </button>
+          ))}
         </div>
       </div>
 
