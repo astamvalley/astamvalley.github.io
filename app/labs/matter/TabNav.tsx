@@ -8,12 +8,14 @@ const tabs = [
   { href: '/labs/matter/letters', label: 'Letters' },
   { href: '/labs/matter/cloth', label: 'Cloth' },
   { href: '/labs/matter/wrecking-ball', label: 'Wrecking Ball' },
-  { href: '/labs/matter/domino', label: 'Domino' },
   { href: '/labs/matter/sandbox', label: 'Sandbox' },
   { href: '/labs/matter/magnet', label: 'Magnet' },
   { href: '/labs/matter/softbody', label: 'Softbody' },
-  { href: '/labs/matter/rope', label: 'Rope' },
   { href: '/labs/matter/stack', label: 'Stack' },
+  { href: '/labs/matter/cradle', label: "Newton's Cradle" },
+  { href: '/labs/matter/fracture', label: 'Fracture' },
+  { href: '/labs/matter/pendulum', label: 'Pendulum Wave' },
+  { href: '/labs/matter/marble', label: 'Marble Run' },
 ]
 
 export default function TabNav() {
