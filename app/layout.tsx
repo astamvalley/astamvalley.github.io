@@ -13,16 +13,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="bg-[#0a0a0a] text-zinc-300 min-h-screen antialiased">
+      <body className="bg-[#0a0a0a] text-zinc-300 min-h-screen antialiased overflow-x-hidden">
         <div className="border-t-2 border-orange-400/80" />
-        <nav className="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
+        <nav className="max-w-3xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
           <a href="/" className="font-mono text-sm font-semibold text-zinc-100 hover:text-orange-300 transition-colors">
             astamvalley
           </a>
-          <div className="flex items-center gap-5">
-            {/* <a href="/" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
-              Home
-            </a> */}
+          <div className="flex items-center gap-3 sm:gap-5">
             <a href="/" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
               Lab
             </a>
@@ -47,10 +44,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
           </div>
         </nav>
-        <main className="max-w-3xl mx-auto px-6 pb-20">
+        <main className="max-w-3xl mx-auto px-4 sm:px-6 pb-20">
           {children}
         </main>
-        <footer className="max-w-3xl mx-auto px-6 pb-10 text-[11px] font-mono text-zinc-700">
+        <footer className="max-w-3xl mx-auto px-4 sm:px-6 pb-10 text-[11px] font-mono text-zinc-700">
           astamvalley
         </footer>
       </body>

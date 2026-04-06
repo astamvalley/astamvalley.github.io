@@ -51,7 +51,7 @@ const experiments = [
 export default function MatterPage() {
   return (
     <div>
-      <header className="mb-12">
+      <header className="mb-8 sm:mb-12">
         <h1 className="font-mono text-lg font-semibold text-zinc-100 mb-3">matter</h1>
         <p className="text-sm text-zinc-500 leading-relaxed max-w-md">
           Matter.js 2D 물리 엔진 실험실. 중력, 충돌, 제약조건, 마우스 인터랙션을 Canvas 위에서 탐구한다.
@@ -69,7 +69,7 @@ export default function MatterPage() {
       <div className="border-t border-zinc-800">
         {experiments.map((exp, i) => (
           <Link key={exp.slug} href={`/labs/matter/${exp.slug}`}>
-            <div className="group flex items-start gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors">
+            <div className="group flex items-start gap-3 sm:gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors">
               <span className="font-mono text-xs text-zinc-700 pt-0.5 w-4 shrink-0 select-none">
                 {String(i + 1).padStart(2, '0')}
               </span>

@@ -11,8 +11,8 @@ const pricingLabel: Record<string, { label: string; className: string }> = {
 export default function DocsPage() {
   return (
     <>
-      <header className="py-16 mb-4">
-        <h1 className="text-2xl font-mono font-semibold text-zinc-100 tracking-tight mb-3">Docs</h1>
+      <header className="py-10 sm:py-16 mb-4">
+        <h1 className="text-xl sm:text-2xl font-mono font-semibold text-zinc-100 tracking-tight mb-3">Docs</h1>
         <p className="text-sm text-zinc-500 max-w-xs leading-relaxed">
           자주 쓰는 도구, 레퍼런스, 북마크 모음.
         </p>
@@ -33,7 +33,7 @@ export default function DocsPage() {
                 const pricing = pricingLabel[item.pricing.type]
                 return (
                   <Link key={item.slug} href={`/docs/${item.slug}`}>
-                    <div className="group flex items-start gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors">
+                    <div className="group flex items-start gap-3 sm:gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors">
                       <span className="font-mono text-xs text-zinc-700 pt-0.5 w-4 shrink-0 select-none">
                         {String(i + 1).padStart(2, '0')}
                       </span>

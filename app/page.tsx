@@ -49,7 +49,7 @@ function Section({
         ) : (
           items.map((item, i) => {
             const inner = (
-              <div className="group flex items-start gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors cursor-pointer">
+              <div className="group flex items-start gap-3 sm:gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors cursor-pointer">
                 <span className="font-mono text-xs text-zinc-700 pt-0.5 w-4 shrink-0 select-none">
                   {String(i + 1).padStart(2, '0')}
                 </span>
@@ -84,8 +84,8 @@ function Section({
 export default function Home() {
   return (
     <>
-      <header className="py-16 mb-4">
-        <h1 className="text-2xl font-mono font-semibold text-zinc-100 mb-3 tracking-tight">
+      <header className="py-10 sm:py-16 mb-4">
+        <h1 className="text-xl sm:text-2xl font-mono font-semibold text-zinc-100 mb-3 tracking-tight">
           Lab
         </h1>
         <p className="text-sm text-zinc-500 max-w-xs leading-relaxed">

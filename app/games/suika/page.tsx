@@ -332,7 +332,7 @@ export default function SuikaPage() {
         <span className="text-xs font-mono text-zinc-400">suika</span>
       </div>
 
-      <div className="flex flex-col items-center gap-4">
+      <div className="w-full flex flex-col items-center gap-4">
         {/* Score bar */}
         <div className="flex items-center justify-between w-full max-w-[360px]">
           <div className="text-center">

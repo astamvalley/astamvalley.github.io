@@ -27,7 +27,7 @@ export default async function DocDetailPage({ params }: { params: Promise<{ slug
     <div className="max-w-xl">
       <Link
         href="/docs"
-        className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mt-12 mb-10 block"
+        className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mt-12 mb-10"
       >
         ← 돌아가기
       </Link>

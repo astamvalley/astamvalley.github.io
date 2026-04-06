@@ -297,6 +297,12 @@ export default function SandPage() {
 
   return (
     <div className="py-8">
+      <div className="flex items-center gap-2 mb-6">
+        <a href="/" className="text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors">← Home</a>
+        <span className="text-zinc-800 text-xs">/</span>
+        <span className="text-xs font-mono text-zinc-400">falling sand</span>
+      </div>
+
       <div className="mb-5">
         <h1 className="font-mono text-zinc-100 text-xl mb-1 tracking-tight">falling sand</h1>
         <p className="font-mono text-zinc-600 text-xs">

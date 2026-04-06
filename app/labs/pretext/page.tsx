@@ -51,7 +51,7 @@ const experiments = [
 export default function PretextPage() {
   return (
     <div>
-      <header className="mb-12">
+      <header className="mb-8 sm:mb-12">
         <h1 className="font-mono text-lg font-semibold text-zinc-100 mb-3">pretext</h1>
         <p className="text-sm text-zinc-500 leading-relaxed max-w-md">
           DOM reflow 없이 텍스트를 측정하고 배치하는 라이브러리.
@@ -70,7 +70,7 @@ export default function PretextPage() {
       <div className="border-t border-zinc-800">
         {experiments.map((exp, i) => (
           <Link key={exp.slug} href={`/labs/pretext/${exp.slug}`}>
-            <div className="group flex items-start gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors">
+            <div className="group flex items-start gap-3 sm:gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors">
               <span className="font-mono text-xs text-zinc-700 pt-0.5 w-4 shrink-0 select-none">
                 {String(i + 1).padStart(2, '0')}
               </span>

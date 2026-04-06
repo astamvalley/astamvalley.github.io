@@ -31,7 +31,7 @@ export default function TabNav() {
         <span className="text-zinc-800 text-xs">/</span>
         <span className="text-xs font-mono text-zinc-400">pretext</span>
       </div>
-      <div className="flex gap-1">
+      <div className="flex flex-wrap gap-1">
         {tabs.map((tab) => {
           const active = tab.exact
             ? pathname === tab.href
