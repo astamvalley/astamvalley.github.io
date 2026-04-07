@@ -14,6 +14,11 @@ const labs: { name: string; description: string; href?: string; wip?: boolean }[
     description: '알고리즘 기반 시뮬레이션. Game of Life, Boids 군집, Perlin Noise 지형.',
     href: '/labs/sim',
   },
+  {
+    name: 'signature',
+    description: '텍스트를 흘려 쓰는 서명 애니메이션. 잉크가 번지듯 획이 나타나고, 끝에 장식선이 이어진다.',
+    href: '/labs/signature',
+  },
 ]
 
 const craft: { name: string; description: string; href?: string; wip?: boolean }[] = [
@@ -31,6 +36,11 @@ const craft: { name: string; description: string; href?: string; wip?: boolean }
     name: 'gradient',
     description: '애니메이션 그라디언트 메쉬. 4개 색상 피커와 속도 슬라이더로 편집.',
     href: '/craft/gradient',
+  },
+  {
+    name: 'calligraphy',
+    description: '붓 각도와 속도에 반응하는 캘리그래피 브러시. 이동 방향과 펜 각도 차이로 선 두께가 달라진다.',
+    href: '/craft/calligraphy',
   },
 ]
 
@@ -67,6 +77,11 @@ const games: { name: string; description: string; href?: string; wip?: boolean }
     name: 'falling sand',
     description: '모래, 물, 불, 연기, 나무. 캔버스 픽셀 시뮬레이션 — 라이브러리 없음.',
     href: '/games/sand',
+  },
+  {
+    name: 'piano',
+    description: 'Synthesia 스타일 피아노 학습 게임. 건반 위로 노트 바가 떨어진다. Canon in D · Für Elise 수록.',
+    href: '/games/rhythm',
   },
 ]
 

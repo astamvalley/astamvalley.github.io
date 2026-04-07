@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Matter from 'matter-js'
+import BackLink from '@/app/components/BackLink'
 
 // 레벨 1~10 (인덱스 0~9)
 const FRUITS = [
@@ -326,11 +327,7 @@ export default function SuikaPage() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center gap-2 mb-6">
-        <a href="/" className="text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors">← Home</a>
-        <span className="text-zinc-800 text-xs">/</span>
-        <span className="text-xs font-mono text-zinc-400">suika</span>
-      </div>
+      <BackLink section="suika" />
 
       <div className="w-full flex flex-col items-center gap-4">
         {/* Score bar */}

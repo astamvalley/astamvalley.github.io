@@ -1,44 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-
-function Slider({
-  label,
-  value,
-  min,
-  max,
-  step = 1,
-  unit = '',
-  onChange,
-}: {
-  label: string
-  value: number
-  min: number
-  max: number
-  step?: number
-  unit?: string
-  onChange: (v: number) => void
-}) {
-  return (
-    <div className="mb-4">
-      <div className="flex justify-between items-center mb-1.5">
-        <label className="text-[11px] font-mono text-zinc-500">{label}</label>
-        <span className="text-[11px] font-mono text-orange-400">
-          {value}{unit}
-        </span>
-      </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-0.5 bg-zinc-700 rounded appearance-none cursor-pointer accent-orange-400"
-      />
-    </div>
-  )
-}
+import Slider from '@/app/components/Slider'
 
 function hexToHsl(hex: string): [number, number, number] {
   const r = parseInt(hex.slice(1, 3), 16) / 255
@@ -132,7 +95,6 @@ export default function GradientPage() {
 
   return (
     <div>
-      <a href="/" className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mt-12 mb-10">← Home</a>
       <header className="mb-8 sm:mb-12">
         <h1 className="font-mono text-lg font-semibold text-zinc-100 mb-3">Gradient</h1>
         <p className="text-sm text-zinc-500 leading-relaxed max-w-lg">

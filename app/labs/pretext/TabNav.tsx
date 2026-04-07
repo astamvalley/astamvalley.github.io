@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import BackLink from '@/app/components/BackLink'
 
 const tabs = [
   { href: '/labs/pretext', label: 'Overview', exact: true },
@@ -22,16 +23,7 @@ export default function TabNav() {
 
   return (
     <div className="mb-10">
-      <div className="flex items-center gap-2 mb-6">
-        <Link
-          href="/"
-          className="text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors"
-        >
-          ← Home
-        </Link>
-        <span className="text-zinc-800 text-xs">/</span>
-        <span className="text-xs font-mono text-zinc-400">pretext</span>
-      </div>
+      <BackLink section="pretext" />
       <div className="flex flex-wrap gap-1">
         {tabs.map((tab) => {
           const active = tab.exact

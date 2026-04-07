@@ -298,7 +298,7 @@ export default function SynthPage() {
 
   return (
     <div className="max-w-2xl">
-      <a href="/" className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mt-12 mb-10">← Home</a>
+
       <header className="mb-8">
         <h1 className="font-mono text-lg font-semibold text-zinc-100 mb-2">
           Polyphonic Synthesizer
