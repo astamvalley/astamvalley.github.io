@@ -79,9 +79,14 @@ const games: { name: string; description: string; href?: string; wip?: boolean }
     href: '/games/sand',
   },
   {
-    name: 'piano',
-    description: 'Synthesia 스타일 피아노 학습 게임. 건반 위로 노트 바가 떨어진다. Canon in D · Für Elise 수록.',
-    href: '/games/rhythm',
+    name: 'alkkagi',
+    description: '한국 전통 알까기. 말을 튕겨 상대 말을 판 밖으로 밀어내라. Matter.js 물리 엔진 기반 2인 대전.',
+    href: '/games/alkkagi',
+  },
+  {
+    name: 'omok',
+    description: '오목. 15×15 바둑판, 5개를 먼저 잇는 쪽이 승리. AI 대전 · 2인 대전 모드.',
+    href: '/games/omok',
   },
 ]
 
