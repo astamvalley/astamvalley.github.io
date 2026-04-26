@@ -88,6 +88,11 @@ const games: { name: string; description: string; href?: string; wip?: boolean }
     description: '오목. 15×15 바둑판, 5개를 먼저 잇는 쪽이 승리. AI 대전 · 2인 대전 모드.',
     href: '/games/omok',
   },
+  {
+    name: 'survivor',
+    description: '뱀파이어 서바이벌 풍 로그라이트. 자동 공격, 적 무리 생존, 레벨업마다 카드 3장 중 하나로 빌드 구성.',
+    href: '/games/survivor',
+  },
 ]
 
 function Section({
