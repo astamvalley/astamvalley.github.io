@@ -5,7 +5,7 @@ import BackLink from '@/app/components/BackLink'
 
 // ── View ──────────────────────────────────────────────────────────
 const W = 720
-const H = 480
+const H = 540
 
 // ── Player ────────────────────────────────────────────────────────
 const PLAYER_R = 6
@@ -1034,6 +1034,7 @@ function applyCard(s: GameState, id: CardId) {
 // ── Module-level state ────────────────────────────────────────────
 let state: GameState = makeState()
 const keys: Record<string, boolean> = {}
+const touchDir = { x: 0, y: 0 }
 
 // ── Update ────────────────────────────────────────────────────────
 function update(s: GameState) {
@@ -1047,6 +1048,9 @@ function update(s: GameState) {
   if (keys['s'] || keys['arrowdown'])  iy += 1
   if (keys['a'] || keys['arrowleft'])  ix -= 1
   if (keys['d'] || keys['arrowright']) ix += 1
+  if (ix === 0 && iy === 0 && (touchDir.x !== 0 || touchDir.y !== 0)) {
+    ix = touchDir.x; iy = touchDir.y
+  }
   const il = Math.hypot(ix, iy)
   if (il > 0) {
     ix /= il; iy /= il
@@ -2295,9 +2299,49 @@ export default function SurvivorPage() {
 
     const onBlur = () => { for (const k in keys) keys[k] = false }
 
+    // ── Touch (virtual joystick from initial touch point) ────
+    const touchState = { id: -1, sx: 0, sy: 0 }
+    const TOUCH_DEAD = 10 // px in CSS units
+    const onTouchStart = (e: TouchEvent) => {
+      if (touchState.id !== -1) return
+      const t = e.changedTouches[0]
+      const rect = canvas.getBoundingClientRect()
+      touchState.id = t.identifier
+      touchState.sx = t.clientX - rect.left
+      touchState.sy = t.clientY - rect.top
+      touchDir.x = 0; touchDir.y = 0
+    }
+    const onTouchMove = (e: TouchEvent) => {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        const t = e.changedTouches[i]
+        if (t.identifier !== touchState.id) continue
+        e.preventDefault()
+        const rect = canvas.getBoundingClientRect()
+        const dx = (t.clientX - rect.left) - touchState.sx
+        const dy = (t.clientY - rect.top)  - touchState.sy
+        const dl = Math.hypot(dx, dy)
+        if (dl < TOUCH_DEAD) { touchDir.x = 0; touchDir.y = 0 }
+        else { touchDir.x = dx / dl; touchDir.y = dy / dl }
+        break
+      }
+    }
+    const onTouchEnd = (e: TouchEvent) => {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === touchState.id) {
+          touchState.id = -1
+          touchDir.x = 0; touchDir.y = 0
+          break
+        }
+      }
+    }
+
     window.addEventListener('keydown', onDown)
     window.addEventListener('keyup',   onUp)
     canvas.addEventListener('click',   onClick)
+    canvas.addEventListener('touchstart',  onTouchStart, { passive: true })
+    canvas.addEventListener('touchmove',   onTouchMove,  { passive: false })
+    canvas.addEventListener('touchend',    onTouchEnd,   { passive: true })
+    canvas.addEventListener('touchcancel', onTouchEnd,   { passive: true })
     window.addEventListener('blur',    onBlur)
 
     return () => {
@@ -2305,7 +2349,12 @@ export default function SurvivorPage() {
       window.removeEventListener('keydown', onDown)
       window.removeEventListener('keyup',   onUp)
       canvas.removeEventListener('click',   onClick)
+      canvas.removeEventListener('touchstart',  onTouchStart)
+      canvas.removeEventListener('touchmove',   onTouchMove)
+      canvas.removeEventListener('touchend',    onTouchEnd)
+      canvas.removeEventListener('touchcancel', onTouchEnd)
       window.removeEventListener('blur',    onBlur)
+      touchDir.x = 0; touchDir.y = 0
     }
   }, [])
 
@@ -2332,12 +2381,16 @@ export default function SurvivorPage() {
             cursor: 'crosshair',
             outline: 'none',
             background: '#0a0a0a',
+            touchAction: 'none',
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+            WebkitTouchCallout: 'none',
           }}
         />
       </div>
 
       <p className="mt-4 font-mono text-[11px] text-zinc-800 leading-relaxed">
-        WASD/방향키 이동 · 공격 자동 · 레벨업 시 숫자키 또는 클릭 · R 재시작 · 무기 9종 · 패시브 9종
+        WASD/방향키 또는 터치 드래그 이동 · 공격 자동 · 레벨업 시 숫자키 또는 탭 · R 재시작 · 무기 9종 · 패시브 9종
       </p>
     </div>
   )
