@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Nav from "./components/Nav";
+import TrackInteraction from "./components/TrackInteraction";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -16,41 +18,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="bg-[#0a0a0a] text-zinc-300 min-h-screen antialiased overflow-x-hidden">
         <div className="border-t-2 border-orange-400/80" />
-        <nav className="max-w-3xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
-          <a href="/" className="font-mono text-sm font-semibold text-zinc-100 hover:text-orange-300 transition-colors">
-            astamvalley
-          </a>
-          <div className="flex items-center gap-3 sm:gap-5">
-            <a href="/" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
-              Lab
-            </a>
-            <a href="/docs" className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors">
-              Docs
-            </a>
-            <a
-              href="https://astamvalley.github.io/claude-foundation"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-mono text-zinc-500 hover:text-orange-300 transition-colors"
-            >
-              Skills ↗
-            </a>
-            <a
-              href="https://github.com/astamvalley"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-mono text-zinc-500 hover:text-zinc-200 transition-colors"
-            >
-              GitHub ↗
-            </a>
-          </div>
-        </nav>
+        <Nav />
         <main className="max-w-3xl mx-auto px-4 sm:px-6 pb-20">
           {children}
         </main>
         <footer className="max-w-3xl mx-auto px-4 sm:px-6 pb-10 text-[11px] font-mono text-zinc-700">
           astamvalley
         </footer>
+        <TrackInteraction />
       </body>
       <GoogleAnalytics gaId="G-XP02S16YV1" />
     </html>
