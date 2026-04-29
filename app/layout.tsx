@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           astamvalley
         </footer>
       </body>
-      <GoogleAnalytics gaId="G-8SBPPEB7XP" />
+      <GoogleAnalytics gaId="G-XP02S16YV1" />
     </html>
   );
 }
